@@ -1,0 +1,715 @@
+/* 确保 Lightbox2 的图片容器适应自定义尺寸 */
+/* 图片统计板块样式 */
+.wp-ai-image-count {
+    margin: 30px 0 20px;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wp-ai-image-count:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.wp-ai-image-count span#total-image-count {
+    font-weight: 700;
+    font-size: 20px;
+    color: #2d3748;
+    background: linear-gradient(135deg, #4c9aff, #7dd3fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    padding: 0 8px;
+}
+
+.wp-ai-image-count::before {
+    content: '\1F4CA';
+    font-size: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+    opacity: 0.9;
+}
+
+.wp-ai-image-count {
+    font-size: 16px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+/* 添加微妙的动画效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wp-ai-image-count {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .wp-ai-image-count {
+        max-width: 90%;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .wp-ai-image-count span#total-image-count {
+        font-size: 18px;
+    }
+
+    .wp-ai-image-count::before {
+        font-size: 20px;
+        margin-right: 8px;
+    }
+}
+/* 删除按钮 */
+.wp-ai-delete-btn {
+    background-color: #dc3232;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.wp-ai-delete-btn:hover {
+    background-color: #b32d2e;
+}
+
+/* 自定义删除确认框 */
+.wp-ai-delete-confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+}
+
+.wp-ai-delete-confirm-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.wp-ai-delete-confirm-content p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.wp-ai-delete-confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.wp-ai-delete-confirm-yes,
+.wp-ai-delete-confirm-no {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.wp-ai-delete-confirm-yes {
+    background-color: #dc3232;
+    color: white;
+}
+
+.wp-ai-delete-confirm-yes:hover {
+    background-color: #b32d2e;
+}
+
+.wp-ai-delete-confirm-no {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.wp-ai-delete-confirm-no:hover {
+    background-color: #e0e0e0;
+}
+/* Lightbox 覆盖层调整 */
+/* 确保页面内容不会被滚动影响 */
+body.lightbox-open {
+    overflow: hidden;
+}
+#lightboxOverlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed !important;
+}
+
+/* 广告项样式 */
+.wp-ai-ad-item {
+    position: relative;
+    width: 220px;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* 确保广告内容自适应容器 */
+.wp-ai-ad-item img,
+.wp-ai-ad-item iframe,
+.wp-ai-ad-item div {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .wp-ai-ad-item {
+        width: 45%;
+        height: 200px; /* 与图片一致 */
+    }
+
+    .wp-ai-ad-item img,
+    .wp-ai-ad-item iframe,
+    .wp-ai-ad-item div {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+/* 预设尺寸 */
+.wp-ai-option.wp-ai-preset-size select {
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+}
+
+/* 上传按钮 */
+.wp-ai-upload-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #32a832;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.wp-ai-upload-btn:hover {
+    background-color: #0b750b;
+}
+
+/* 图片预览 */
+#image-preview {
+    position: relative;
+    margin-top: 10px;
+}
+
+.image-preview-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#image-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* 删除图片按钮 */
+.image-delete-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #ff4444;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.image-delete-btn:hover {
+    background: #cc0000;
+}
+
+#image-upload-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 分页按钮 */
+.wp-ai-pagination {
+    margin: 20px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.wp-ai-page-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #4c9aff, #6b7280);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none !important;
+}
+
+.wp-ai-page-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 154, 255, 0.3);
+    color: #fff;
+    text-decoration: none;
+}
+
+.wp-ai-current-page {
+    padding: 8px 16px;
+    color: #4a5568;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* 我的图片 */
+.wp-ai-my-images-link {
+    margin-left: 20px;
+    font-size: 0.8em;
+    text-decoration: none !important;
+    color: #5491e1;
+}
+
+.wp-ai-my-images-link:hover {
+    text-decoration: none;
+    color: #005177;
+}
+
+/* 提示框 */
+.wp-ai-notice {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 30px;
+    background: #f9f9f9;
+    border: 2px solid #0170ff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: #4a5568;
+    font-size: 16px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.wp-ai-login-link {
+    color: #4c9aff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.wp-ai-login-link:hover {
+    text-decoration: underline;
+}
+
+/* 登录按钮 */
+.wp-ai-login-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    color: #4a5568;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wp-ai-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 整体框架 */
+.wp-ai-image-generate, .wp-ai-image-gallery {
+    max-width: 1200px;
+    width: 100%; /* 确保占满可用宽度 */
+    margin: 20px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c3e8ff 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* 确保 padding 不影响宽度 */
+}
+
+.wp-ai-image-generate h2, .wp-ai-image-gallery h2 {
+    color: #2d3748;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* 输入框 */
+.wp-ai-prompt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 25px;
+}
+
+.wp-ai-prompt-group textarea {
+    width: 100%;
+    height: 120px;
+    resize: vertical;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.3s;
+}
+
+.wp-ai-prompt-group textarea:focus {
+    border-color: #4c9aff;
+    outline: none;
+}
+
+.wp-ai-options-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.wp-ai-option {
+    display: flex;
+    flex-direction: column;
+}
+
+.wp-ai-option input[type="number"] {
+    width: 80px;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.wp-ai-option select {
+    /*width: 100px;*/
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+}
+
+.wp-ai-form-group label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-size: 14px;
+}
+
+.wp-ai-form-group input,
+.wp-ai-form-group select {
+    transition: border-color 0.3s;
+}
+
+.wp-ai-form-group input:focus,
+.wp-ai-form-group select:focus {
+    border-color: #4c9aff;
+    outline: none;
+}
+
+/* 生成按钮 */
+.wp-ai-button {
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #4c9aff, #6b7280);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, filter 0.2s ease;
+    text-decoration: none !important;
+}
+
+.wp-ai-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 154, 255, 0.3);
+    background: linear-gradient(135deg, #5aaaff, #7a8290); /* 稍微提亮渐变色 */
+    filter: brightness(1.1); /* 增加亮度 */
+    text-decoration: none;
+    color: #fff;
+}
+
+.wp-ai-button a {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 154, 255, 0.3);
+    text-decoration: none !important;
+}
+
+.wp-ai-generated-image {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.wp-ai-generated-image img {
+    width: 220px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 图片布局 */
+.wp-ai-random-images,
+.wp-ai-gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* 默认图片样式 */
+.wp-ai-image-item {
+    position: relative;
+    width: 220px;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: #fff;
+}
+
+.wp-ai-image-item img {
+    width: 220px;
+    height: 280px !important;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px 12px 0 0;
+    vertical-align: top;
+}
+
+/* 按钮区域 */
+.wp-ai-image-actions {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 5px;
+}
+
+.wp-ai-image-item:hover .wp-ai-image-actions {
+    opacity: 1;
+}
+
+.wp-ai-download-btn,
+.wp-ai-generate-same-btn {
+    padding: 10px 12px;
+    background: linear-gradient(135deg, #4c9aff, #6b7280);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wp-ai-download-btn:hover,
+.wp-ai-generate-same-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 154, 255, 0.3);
+}
+
+.wp-ai-gallery-actions {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.wp-ai-no-underline {
+    text-decoration: none !important;
+}
+
+.wp-ai-announcement {
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    color: #7c2d12;
+    font-size: 14px;
+}
+
+.wp-ai-announcement p {
+    margin: 0 !important;
+}
+
+.wp-ai-announcement a {
+    color: #ea580c;
+    text-decoration: underline;
+}
+
+.wp-ai-announcement a:hover {
+    color: #c2410c;
+}
+
+.wp-ai-button:disabled {
+    background: #cccccc !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+    color: #666666 !important;
+}
+
+/* 风格选择 */
+/* 图片风格选择 */
+.wp-ai-option.wp-ai-image-style {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Select2 自定义样式 */
+.select2-container .select2-selection--single {
+    height: 42px !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px !important;
+    background: #fff;
+    font-size: 14px;
+    display: flex;
+    align-items: center; /* 确保内容垂直居中 */
+    box-sizing: border-box; /* 确保高度包含边框 */
+    border: 1px solid #e2e8f0 !important;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 42px !important; /* 调整行高以匹配新的高度 */
+    padding-left: 10px;
+    color: #4a5568;
+    border-radius: 8px;
+}
+
+
+.select2-container .select2-selection--single:focus {
+    border-color: #4c9aff;
+    outline: none;
+}
+
+.select2-container--default .select2-results__option {
+    display: flex;
+    align-items: center;
+}
+
+.image-style-preview {
+    border-radius: 4px;
+}
+
+/* 确保下拉框宽度与设计一致 */
+.select2-container {
+    width: 135px !important;
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 48px; /* 手机端略微减小高度以适应屏幕 */
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 48px; /* 手机端调整行高 */
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 48px; /* 手机端调整箭头高度 */
+    }
+}
+
+/* 手机端适配：屏幕宽度小于 768px */
+@media (max-width: 768px) {
+    .wp-ai-image-item {
+        width: 45%;
+        height: auto; /* 自适应高度，防止按钮区域被截断 */
+    }
+
+    .wp-ai-image-item img {
+        width: 100%;
+        height: 200px; /* 手机端减小高度 */
+    }
+    
+    .wp-ai-image-actions {
+        bottom: 0;
+        padding: 5px;
+    }
+
+    .wp-ai-random-images,
+    .wp-ai-gallery-images {
+        width: 100%;
+    }
+
+    .wp-ai-download-btn,
+    .wp-ai-generate-same-btn {
+        padding: 2px 10px;
+    }
+}
